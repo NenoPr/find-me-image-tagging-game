@@ -1,0 +1,16 @@
+.footer-container {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+a {
+    font-size: 2rem;
+    color: white;
+}
+
+a:visited {
+    color: white;
+}

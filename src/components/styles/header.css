@@ -1,0 +1,15 @@
+.header-container {
+    display: grid;
+    grid-template: auto / 1fr 1fr 1fr;
+    justify-items: center;
+}
+
+.header-characters-to-find-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-characters-container {
+    display: flex;
+    gap: 2rem;
+}
