@@ -5,7 +5,6 @@ import { getFirestore, collection, getDocs } from "firebase/firestore";
 import "./styles/level-select.css";
 
 const LevelSelect = (appProps) => {
-  console.log("Props in Level Select:", appProps.state);
   const [levels, setLevels] = useState([]);
 
   useEffect(() => {
@@ -19,7 +18,6 @@ const LevelSelect = (appProps) => {
 
       const querySnapshot = await getDocs(collection(db, "levels"));
       querySnapshot.forEach((doc) => {
-        console.log(Object.keys(doc.data()));
         fetchedLevels.push({
           level: doc.data().level,
           name: doc.data().name,
@@ -32,15 +30,15 @@ const LevelSelect = (appProps) => {
       setLevels(fetchedLevels);
     };
     renderLevels();
+    console.log("Props in Level Select:", appProps.state);
+    console.log("LevelSelect: Component Mounted");
   }, []);
 
   function selectLevel(e) {
     let selectedLevel = Number(e.currentTarget.getAttribute("level-data"));
-    console.log("level", selectedLevel);
     let newLevel = {};
     levels.map((item) => {
       if (item.level === selectedLevel) {
-        console.log("item.imageUrl", item.imageUrl);
         newLevel = {
           level: item.level,
           imageUrl: item.imageUrl,

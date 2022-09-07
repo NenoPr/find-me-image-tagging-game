@@ -42,6 +42,7 @@ const App = () => {
       }
     };
     getCharacters();
+    console.log("App Rerender: currentLevel updated")
   }, [currentLevel]);
 
   function shuffle(array) {
@@ -79,8 +80,6 @@ const App = () => {
       collection(db, `playstation${currentLevel.level}-level`)
     );
     querySnapshot.forEach((doc) => {
-      // console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
-      // console.log(Object.keys(doc.data()));
       if (x > doc.data().xCord1 && x < doc.data().xCord2) {
         if (y > doc.data().yCord1 && y < doc.data().yCord2) {
           alert(`You Found ${doc.data().name}!`);
@@ -92,6 +91,7 @@ const App = () => {
 
   useEffect(() => {
     if (foundCharacters >= 3) resetGame();
+    console.log("App Rerender: foundCharacters updated")
   }, [foundCharacters]);
 
   function resetGame() {
@@ -101,8 +101,6 @@ const App = () => {
     setTimerRunning(false);
     setTime(0);
   }
-
-  console.log("currentLevel.imageUrl", currentLevel.imageUrl);
 
   return (
     <div className="App">

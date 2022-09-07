@@ -4,7 +4,7 @@ import Timer from "./Timer";
 import "./styles/header.css";
 
 const Header = (appProps) => {
-  console.log("Header props", appProps);
+  // console.log("Header props", appProps);
   return (
     <>
       <div className="header-container">
@@ -27,7 +27,7 @@ const Header = (appProps) => {
           <div className="header-characters-container">
             {appProps.props.characters ? (
               appProps.props.characters.map((item) => (
-                <div className="header-characters">{item}</div>
+                <div className="header-characters" key={item+appProps.props.currentLevel}>{item}</div>
               ))
             ) : (
               <div>Select a level.</div>
