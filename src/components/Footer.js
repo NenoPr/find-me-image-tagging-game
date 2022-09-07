@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ReactDOM } from "react";
-import './styles/footer.css'
+import "./styles/footer.css";
 
 const Footer = () => {
   return (
@@ -14,10 +14,18 @@ const Footer = () => {
           {" "}
           Created by{" "}
           <img
-            src="/where-s-waldo-photo-tagging-app/GitHub-Mark-32px.png"
+            src="/where-s-waldo-photo-tagging-app/GitHub-Mark-Light-32px.png"
             alt="GitHub Logo"
           />{" "}
-          NenoPr{" "}
+          NenoPr
+        </a>
+        <span>{" : "}</span>
+        <a
+          href="https://pierreroussel.artstation.com/"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Art By: Pierre Roussel
         </a>
       </div>
     </>

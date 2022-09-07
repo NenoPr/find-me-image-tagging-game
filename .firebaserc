@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "find-me-game": "find-me-game",
+    "default": "find-me-game"
+  },
+  "targets": {},
+  "etags": {}
+}

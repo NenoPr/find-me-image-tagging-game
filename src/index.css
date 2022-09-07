@@ -1,5 +1,10 @@
 :root {
   --main-color-1: #282c34;
+  --main-color-2: #a93232;
+  --accent-color-1: #a5bcea;
+  --accent-color-2: #181b28;
+  --white: #ffffff;
+  --black: #000000;
 }
 
 body {
