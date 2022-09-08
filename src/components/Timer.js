@@ -18,11 +18,11 @@ const Timer = (appProps) => {
           <span>{(Math.floor((appProps.props.time / 60000)))}:</span>
           <span>{("0" + Math.floor((appProps.props.time / 1000) % 60)).slice(-2)}</span>
         </div>
-        <div className="buttons">
+        {/* <div className="buttons">
           <button onClick={() => appProps.props.setTimerRunning(true)}>Start</button>
           <button onClick={() => appProps.props.setTimerRunning(false)}>Stop</button>
           <button onClick={() => appProps.props.setTime(0)}>Reset</button>       
-        </div>
+        </div> */}
       </div>
     );
   };
