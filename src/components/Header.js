@@ -18,17 +18,27 @@ const Header = (appProps) => {
         </div>
         <div className="header-characters-to-find-container">
           {appProps.props.timerRunning ? (
-            <div className="header-characters-title">
-              Find These Characters!
-            </div>
+            <div className="header-characters-title">Find:</div>
           ) : (
             <div className="header-characters-title"></div>
           )}
           <div className="header-characters-container">
             {appProps.props.characters ? (
-              appProps.props.characters.map((item) => (
-                <div className="header-characters" key={item+appProps.props.currentLevel}>{item}</div>
-              ))
+              appProps.props.characters.map((item) =>
+                item.status ? null : (
+                  <div
+                    className="header-character-holder"
+                    key={item.name + item.imageUrl}
+                  >
+                    <img
+                      src={item.imageUrl}
+                      alt={item.name}
+                      className="header-characters-image"
+                    />
+                    <div className="header-characters">{item.name}</div>
+                  </div>
+                )
+              )
             ) : (
               <div>Select a level.</div>
             )}

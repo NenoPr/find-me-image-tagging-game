@@ -1,7 +1,16 @@
 import React, { useState, useEffect, createElement } from "react";
 import ReactDOMClient, { createRoot } from "react-dom/client";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  limit,
+  addDoc,
+} from "firebase/firestore";
+import uniqid from "uniqid";
 import Header from "./components/Header";
 import LevelSelect from "./components/LevelSelect";
 import Footer from "./components/Footer";
@@ -22,10 +31,13 @@ const App = () => {
   const [characters, setCharacters] = useState([]);
   const [time, setTime] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
-  const [foundCharacters, setFoundCharacters] = useState(0);
+  const [foundCharacters, setFoundCharacters] = useState([]);
   const [charSelectionLoc, setCharSelectionLoc] = useState(0);
   const [charSelectionBool, setCharSelectionBool] = useState(false);
   const [leaderboardData, setLeaderboardData] = useState(0);
+  const [root, setRoot] = useState(0);
+  const [subbmitedScore, setSubmittedScore] = useState(false);
+  const [charFound, setCharFound] = useState(false);
 
   useEffect(() => {
     const getCharacters = async () => {
@@ -40,10 +52,15 @@ const App = () => {
         );
         let fetchedCharacters = [];
         querySnapshot.forEach((doc) => {
-          fetchedCharacters.push(doc.data().name);
+          fetchedCharacters.push(doc.data());
         });
         shuffle(fetchedCharacters);
-        setCharacters(fetchedCharacters);
+        let newChars = [
+          fetchedCharacters[0],
+          fetchedCharacters[1],
+          fetchedCharacters[2],
+        ];
+        setCharacters(newChars);
       }
     };
     getCharacters();
@@ -69,6 +86,20 @@ const App = () => {
     console.log("X", x);
     console.log("Y", y);
 
+    let presentChar = false;
+    if (foundCharacters) {
+      foundCharacters.map((item) => {
+        if (item === e.target.innerText) {
+          presentChar = true;
+        }
+      });
+    }
+    if (presentChar) {
+      renderMissOrHit("Found");
+      setCharSelectionBool(false);
+      return;
+    }
+
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     // Get the database data
@@ -77,18 +108,60 @@ const App = () => {
     const querySnapshot = await getDocs(
       collection(db, `playstation${currentLevel.level}-level`)
     );
+    let miss = true;
     querySnapshot.forEach((doc) => {
       if (x > doc.data().xCord1 && x < doc.data().xCord2) {
         if (y > doc.data().yCord1 && y < doc.data().yCord2) {
           if (e.target.innerText === doc.data().name) {
-            alert(`You Found ${doc.data().name}!`);
             console.log(`You Found ${doc.data().name}!`);
-            setFoundCharacters(foundCharacters + 1);
-          } else alert(`That's a miss!`);
+            miss = false;
+            renderMissOrHit(doc.data().name);
+            let newChars = characters.map((item) => {
+              if (item.name !== doc.data().name) return item;
+              else {
+                item.status = "found";
+                return item;
+              }
+            });
+            console.log("newChars", newChars);
+            setCharacters(newChars);
+            return;
+          }
         }
       }
     });
+    if (miss) renderMissOrHit("Miss");
     setCharSelectionBool(false);
+  }
+
+  function renderMissOrHit(name) {
+    let element = document.querySelector(".game-hit-or-miss");
+    element.classList.remove("game-hit-or-miss-off");
+    element.classList.add("game-hit-or-miss-on");
+    setTimeout(() => {
+      element.classList.add("game-hit-or-miss-off");
+      element.classList.remove("game-hit-or-miss-on");
+    }, 1000);
+    console.log("foundCharacters", foundCharacters.length);
+
+    if (name === "Miss") element.innerText = "Miss!";
+    if (name === "Found") element.innerText = "Character already found";
+    if (name !== "Miss" && name !== "Found") {
+      if (foundCharacters) {
+        let charHolder = foundCharacters;
+        console.log("charHolder", charHolder);
+        charHolder.push(name);
+        console.log("charHolder", charHolder);
+
+        element.innerText = `${name} Found!`;
+        setFoundCharacters(charHolder);
+        setCharFound(!charFound);
+      } else {
+        element.innerText = `${name} Found!`;
+        setFoundCharacters([name]);
+        setCharFound(!charFound);
+      }
+    }
   }
 
   function dropDownSelection(e) {
@@ -111,87 +184,185 @@ const App = () => {
   }
 
   useEffect(() => {
-    if (foundCharacters >= 3) {
+    console.log(
+      "foundCharacters AAAAAAAAAAAAAAAAAAAAAAAAA",
+      foundCharacters.length
+    );
+    if (foundCharacters.length > 2) {
+      setRoot(createRoot(document.querySelector(".game-image-holder")));
+      setCharacters([]);
       setTimerRunning(false);
-      const getLeaderboardData = async () => {
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        // Get the database data
-        const db = getFirestore(app);
-
-        const querySnapshot = await getDocs(collection(db, `leaderboard`));
-        let leaderboardData = [];
-        querySnapshot.forEach((doc) => {
-          leaderboardData.push(doc.data());
-        });
-        setLeaderboardData(leaderboardData);
-      };
       getLeaderboardData();
     }
     console.log("App Rerender: foundCharacters updated");
-  }, [foundCharacters]);
+  }, [charFound]);
 
   useEffect(() => {
-    if (foundCharacters >= 3) {
-      createRoot(document.querySelector(".game-image-holder")).render(
+    if (foundCharacters.length > 2) {
+      root.render(
         <div className="victory-container">
+          <button className="back-button" onClick={resetGame}>
+            BACK TO LEVEL SELECTION
+          </button>
           <div className="victory-title">You found all the Characters!</div>
           <div className="victory-player-info-container">
             <div className="leaderboard-time">
-              <span>{Math.floor(time / 60000)}:</span>
+              <span>Time: {Math.floor(time / 60000)}:</span>
               <span>{(" 0" + Math.floor((time / 1000) % 60)).slice(-2)} </span>
             </div>
             <div className="leaderboard-text">
-              <div>Congratulations! You beat the top 50!</div>
-              <div>
-                You have earned yourself a place on the global leaderboard!
-              </div>
+              <div>Congratulations!</div>
+              <div>Place yourself on the global leaderboard if you wish!</div>
             </div>
-            <div className="leaderboard-player-input-container">
-              <div className="leaderboard-player-input-name">
-                <div>Name:</div>
-                <input type="text" placeholder="Name..." />
-              </div>
-              <div className="leaderboard-player-input-name">
-                <div>Comment:</div>
-                <textarea
-                  rows={"3"}
-                  cols={"40"}
-                  type="text"
-                  placeholder="Comment..."
-                />
-              </div>
-            </div>
-            <button className="leaderboard-submit-button">SUBMIT</button>
+            {subbmitedScore ? (
+              <div className="leaderboard-submitted">Score Submitted!</div>
+            ) : (
+              <>
+              <form className="leaderboard-player-input-container">
+                <div className="leaderboard-player-input-name">
+                  <div>Name:</div>
+                  <input
+                    type="text"
+                    placeholder="Name..."
+                    name="name"
+                    required={true}
+                  />
+                </div>
+                <div className="leaderboard-player-input-name">
+                  <div>Comment:</div>
+                  <textarea
+                    rows={"3"}
+                    cols={"40"}
+                    type="text"
+                    placeholder="Comment..."
+                    name="comment"
+                    required={true}
+                  />
+                </div>
+              </form>
+                <button
+                  className="leaderboard-submit-button"
+                  onClick={toogleSubmit}
+                  disabled={subbmitedScore}
+                >
+                  SUBMIT
+                </button>
+              </>
+            )}
           </div>
           <div className="global-leaderboard-title">Global Leaderboard</div>
           <div className="leaderboard-results-container">
+            <div className="leaderboard-result-holder" key={uniqid()}>
+              <div className="leaderboard-result-item">Rank</div>
+              <div className="leaderboard-result-item result-item-name">
+                Name
+              </div>
+              <div className="leaderboard-result-item result-item-comment">
+                Comment
+              </div>
+              <div className="leaderboard-result-item result-item-time">
+                Time
+              </div>
+              <div className="leaderboard-result-item">Date</div>
+            </div>
+
             {leaderboardData ? (
               leaderboardData.map((item) => (
-                <div className="leaderboard-result-holder">
-                  <div className="leaderboard-result-item">{item.name}</div>
-                  <div className="leaderboard-result-item">{item.comment}</div>
-                  <div className="leaderboard-result-item">{item.time}</div>
+                <div className="leaderboard-result-holder" key={uniqid()}>
+                  <div className="leaderboard-result-item">{item.rank}</div>
+                  <div className="leaderboard-result-item result-item-name">
+                    {item.name}
+                  </div>
+                  <div className="leaderboard-result-item result-item-comment">
+                    {item.comment}
+                  </div>
+                  <div className="leaderboard-result-item result-item-time">
+                    {item.time}
+                  </div>
+                  <div className="leaderboard-result-item">
+                    {item.date ? new Date(item.date).getDate() + "." +  new Date(item.date).getMonth() + "." +  new Date(item.date).getFullYear(): null}
+                  </div>
                 </div>
               ))
             ) : (
               <div>Loading Leaderboard...</div>
             )}
           </div>
-          <button className="back-button" onClick={resetGame}>
-            BACK TO LEVEL SELECTION
-          </button>
         </div>
       );
     }
+    window.scrollTo(0, 0);
     console.log("App Rerender: LeaderBoard Updated.");
   }, [leaderboardData]);
+
+  const getLeaderboardData = async () => {
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    // Get the database data
+    const db = getFirestore(app);
+
+    const querySnapshot = await getDocs(
+      query(
+        collection(getFirestore(), "leaderboard"),
+        orderBy("timestamp", "asc"),
+        limit(50)
+      )
+    );
+    let leaderboardData = [];
+    querySnapshot.forEach((doc) => {
+      leaderboardData.push(doc.data());
+    });
+    leaderboardData.sort();
+    console.log("leaderboardData[i]", leaderboardData, leaderboardData[0]);
+    for (let i = 0; i < leaderboardData.length; i++) {
+      leaderboardData[i].rank = i + 1;
+    }
+    setLeaderboardData(leaderboardData);
+  };
+
+  function toogleSubmit() {
+    setSubmittedScore(true)
+  }
+  
+  useEffect(() => {
+    submitScoreToLeaderboard()
+  }, [subbmitedScore])
+
+  async function submitScoreToLeaderboard() {
+    let formElement = document.querySelector(
+      ".leaderboard-player-input-container"
+    );
+
+    console.log(formElement);
+    console.log("formElement['name']", formElement["name"].value);
+    console.log("formElement['comment']", formElement["comment"].value);
+    if (formElement["name"].value === "") return;
+    if (formElement["comment"].value === "")
+      formElement["comment"].value = "No Comment Provided.";
+    
+    try {
+      await addDoc(collection(getFirestore(), "leaderboard"), {
+        name: formElement["name"].value,
+        comment: formElement["comment"].value,
+        timestamp: time,
+        time:
+          Math.floor(time / 60000) +
+          ":" +
+          ("0" + Math.floor((time / 1000) % 60)).slice(-2),
+        date: Date.now(),
+      });
+    } catch (error) {
+      console.error("Error writing new message to Firebase Database", error);
+    }
+    getLeaderboardData();
+  }
 
   function resetGame() {
     setCurrentLevel({ level: 0 });
     setCharacters([]);
     setFoundCharacters(0);
     setCharSelectionLoc([]);
+    setSubmittedScore(false);
     setCharSelectionBool(false);
     setTimerRunning(false);
     setTime(0);
@@ -231,19 +402,19 @@ const App = () => {
                     className="game-selection-choice"
                     onClick={getCoordinates}
                   >
-                    {characters[0]}
+                    {characters[0].name}
                   </div>
                   <div
                     className="game-selection-choice"
                     onClick={getCoordinates}
                   >
-                    {characters[1]}
+                    {characters[1].name}
                   </div>
                   <div
                     className="game-selection-choice"
                     onClick={getCoordinates}
                   >
-                    {characters[2]}
+                    {characters[2].name}
                   </div>
                 </div>
               ) : (
@@ -260,6 +431,7 @@ const App = () => {
                 className="game-image"
               />
             </div>
+            <div className="game-hit-or-miss-off game-hit-or-miss">Miss!</div>
           </>
         )}
       </div>

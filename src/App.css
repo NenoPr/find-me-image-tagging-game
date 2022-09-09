@@ -13,12 +13,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: 2rem;
   color: white;
   background-color: var(--accent-color-2);
   border-bottom: .2rem solid var(--accent-color-1);
-  padding-top: 1rem;
-  padding-bottom: 2rem;
+  min-height: 12vh;
+  position: sticky;
+  top: 0;
+  left: 0;
 }
 
 .app-game-container {
@@ -39,8 +41,8 @@
   font-weight: 700;
   cursor: pointer;
   color: var(--white);
-  margin-bottom: -5rem;
   z-index: 10;
+  font-family: "PsBold";
 }
 .back-button:hover {
   background-color: var(--accent-color-1);
@@ -62,7 +64,8 @@
   border-radius: .5rem;
   isolation: isolate;
   width: max-content;
-  height: 8rem;
+  height: 7.05rem;
+  font-family: "PsBold";
 }
 
 .game-selection-choice {
@@ -70,6 +73,7 @@
   cursor: pointer;
   padding-left: 1rem;
   padding-right: 1rem;
+  font-family: "PsBold";
 }
 
 .game-selection-choice:hover {
@@ -80,6 +84,10 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  align-items: center;
 }
 
 .victory-player-info-container {
@@ -91,17 +99,27 @@
   box-shadow: 0 0 .5rem .2rem var(--main-color-2);
   padding: 1rem;
   background-color: var(--accent-color-2);
+
+  width: fit-content;
 }
 
 .victory-title {
   font-size: 3rem;
-  font-weight: 700;
+  margin-bottom: 1rem;
   color: var(--white);
+  font-weight: 700;
 }
 
 .leaderboard-text {
+  font-size: 1.5rem;
+  color: var(--white);
+
+}
+
+.leaderboard-submitted {
   font-size: 2rem;
   color: var(--white);
+  font-weight: 700;
 }
 
 .leaderboard-player-input-container {
@@ -130,6 +148,7 @@ textarea {
 }
 
 .leaderboard-submit-button {
+  margin-top: 1rem;
   padding: 1rem;
   background-color: var(--accent-color-2);
   color: var(--white);
@@ -140,6 +159,7 @@ textarea {
   cursor: pointer;
   width: fit-content;
   align-self: center;
+  font-family: "PsBold";
 }
 
 .leaderboard-submit-button:hover {
@@ -162,9 +182,10 @@ textarea {
 
 .leaderboard-result-holder {
   display: grid;
-  grid-template: auto / 1fr 4fr 1fr;
+  grid-template: auto / 1fr 2fr 5fr 1fr 2fr;
   background-color: var(--white);
-  border: .1rem solid gray;  
+  border: .1rem solid gray;
+  font-size: .85rem;
 }
 
 .leaderboard-result-holder:first-child{
@@ -186,8 +207,24 @@ textarea {
   border-right: .1rem solid var(--accent-color-2);
 }
 
+.leaderboard-result-item:nth-child(2) {
+  border-right: .1rem solid var(--accent-color-2);
+}
+
+.leaderboard-result-item:nth-child(3) {
+  border-right: .1rem solid var(--accent-color-2);
+}
+
 .leaderboard-result-item:last-child {
   border-left: .1rem solid var(--accent-color-2);
+}
+
+.result-item-name {
+
+ }
+
+.result-item-comment {
+
 }
 
 .app-footer {
@@ -199,11 +236,40 @@ textarea {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.game-hit-or-miss {
+
+}
+
+.game-hit-or-miss-off {
+  display: none;
+}
+
+.game-hit-or-miss-on {
+  position: fixed;
+  top: 80%;
+  left: 80%;
+  text-align: center;
+  font-size: 2rem;
+  font-family: "PsBold";
+  padding: 1rem;
+  background-color: var(--white);
+  border: .1rem solid var(--accent-color-2);
+  border-radius: 1rem;
+  max-width: 15vw;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .game-hit-or-miss-on {
+    animation: Hit-or-Miss 1 .5s;
+    animation-iteration-count: 1;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+@keyframes Hit-or-Miss {
+  0% {
+    top: 110%;
+  }
+  100% {
+    top: 80%;
   }
 }
