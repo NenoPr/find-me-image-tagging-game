@@ -41,7 +41,6 @@
   font-weight: 700;
   cursor: pointer;
   color: var(--white);
-  z-index: 10;
   font-family: "PsBold";
 }
 .back-button:hover {
@@ -180,6 +179,11 @@ textarea {
   flex-direction: column;
 }
 
+.result-header-item {
+  font-weight: 700;
+  color: var(--black);
+}
+
 .leaderboard-result-holder {
   display: grid;
   grid-template: auto / 1fr 2fr 5fr 1fr 2fr;
@@ -209,10 +213,15 @@ textarea {
 
 .leaderboard-result-item:nth-child(2) {
   border-right: .1rem solid var(--accent-color-2);
+  background-color: rgba(144, 168, 200, 0.5);
 }
 
 .leaderboard-result-item:nth-child(3) {
   border-right: .1rem solid var(--accent-color-2);
+}
+
+.leaderboard-result-item:nth-child(4) {
+  background-color: rgba(144, 168, 200, 0.5);
 }
 
 .leaderboard-result-item:last-child {

@@ -218,28 +218,28 @@ const App = () => {
               <div className="leaderboard-submitted">Score Submitted!</div>
             ) : (
               <>
-              <form className="leaderboard-player-input-container">
-                <div className="leaderboard-player-input-name">
-                  <div>Name:</div>
-                  <input
-                    type="text"
-                    placeholder="Name..."
-                    name="name"
-                    required={true}
-                  />
-                </div>
-                <div className="leaderboard-player-input-name">
-                  <div>Comment:</div>
-                  <textarea
-                    rows={"3"}
-                    cols={"40"}
-                    type="text"
-                    placeholder="Comment..."
-                    name="comment"
-                    required={true}
-                  />
-                </div>
-              </form>
+                <form className="leaderboard-player-input-container">
+                  <div className="leaderboard-player-input-name">
+                    <div>Name:</div>
+                    <input
+                      type="text"
+                      placeholder="Name..."
+                      name="name"
+                      required={true}
+                    />
+                  </div>
+                  <div className="leaderboard-player-input-name">
+                    <div>Comment:</div>
+                    <textarea
+                      rows={"3"}
+                      cols={"40"}
+                      type="text"
+                      placeholder="Comment..."
+                      name="comment"
+                      required={true}
+                    />
+                  </div>
+                </form>
                 <button
                   className="leaderboard-submit-button"
                   onClick={toogleSubmit}
@@ -253,17 +253,21 @@ const App = () => {
           <div className="global-leaderboard-title">Global Leaderboard</div>
           <div className="leaderboard-results-container">
             <div className="leaderboard-result-holder" key={uniqid()}>
-              <div className="leaderboard-result-item">Rank</div>
-              <div className="leaderboard-result-item result-item-name">
+              <div className="leaderboard-result-item result-header-item">
+                Rank
+              </div>
+              <div className="leaderboard-result-item result-header-item">
                 Name
               </div>
-              <div className="leaderboard-result-item result-item-comment">
+              <div className="leaderboard-result-item result-header-item">
                 Comment
               </div>
-              <div className="leaderboard-result-item result-item-time">
+              <div className="leaderboard-result-item result-header-item">
                 Time
               </div>
-              <div className="leaderboard-result-item">Date</div>
+              <div className="leaderboard-result-item result-header-item">
+                Date
+              </div>
             </div>
 
             {leaderboardData ? (
@@ -280,7 +284,13 @@ const App = () => {
                     {item.time}
                   </div>
                   <div className="leaderboard-result-item">
-                    {item.date ? new Date(item.date).getDate() + "." +  new Date(item.date).getMonth() + "." +  new Date(item.date).getFullYear(): null}
+                    {item.date
+                      ? new Date(item.date).getDate() +
+                        "." +
+                        new Date(item.date).getMonth() +
+                        "." +
+                        new Date(item.date).getFullYear()
+                      : null}
                   </div>
                 </div>
               ))
@@ -321,12 +331,12 @@ const App = () => {
   };
 
   function toogleSubmit() {
-    setSubmittedScore(true)
+    setSubmittedScore(true);
   }
-  
+
   useEffect(() => {
-    submitScoreToLeaderboard()
-  }, [subbmitedScore])
+    submitScoreToLeaderboard();
+  }, [subbmitedScore]);
 
   async function submitScoreToLeaderboard() {
     let formElement = document.querySelector(
@@ -339,7 +349,7 @@ const App = () => {
     if (formElement["name"].value === "") return;
     if (formElement["comment"].value === "")
       formElement["comment"].value = "No Comment Provided.";
-    
+
     try {
       await addDoc(collection(getFirestore(), "leaderboard"), {
         name: formElement["name"].value,
