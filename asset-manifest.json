@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/where-s-waldo-photo-tagging-app/static/css/main.03546740.css",
-    "main.js": "/where-s-waldo-photo-tagging-app/static/js/main.9e890ee0.js",
+    "main.css": "/where-s-waldo-photo-tagging-app/static/css/main.e3f829a3.css",
+    "main.js": "/where-s-waldo-photo-tagging-app/static/js/main.32c3ddc5.js",
     "static/js/787.bbb7ba7b.chunk.js": "/where-s-waldo-photo-tagging-app/static/js/787.bbb7ba7b.chunk.js",
+    "static/media/PsBold.ttf": "/where-s-waldo-photo-tagging-app/static/media/PsBold.2c139a4a156f192ca221.ttf",
     "index.html": "/where-s-waldo-photo-tagging-app/index.html",
-    "main.03546740.css.map": "/where-s-waldo-photo-tagging-app/static/css/main.03546740.css.map",
-    "main.9e890ee0.js.map": "/where-s-waldo-photo-tagging-app/static/js/main.9e890ee0.js.map",
+    "main.e3f829a3.css.map": "/where-s-waldo-photo-tagging-app/static/css/main.e3f829a3.css.map",
+    "main.32c3ddc5.js.map": "/where-s-waldo-photo-tagging-app/static/js/main.32c3ddc5.js.map",
     "787.bbb7ba7b.chunk.js.map": "/where-s-waldo-photo-tagging-app/static/js/787.bbb7ba7b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.03546740.css",
-    "static/js/main.9e890ee0.js"
+    "static/css/main.e3f829a3.css",
+    "static/js/main.32c3ddc5.js"
   ]
 }
