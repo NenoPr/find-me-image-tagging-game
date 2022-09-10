@@ -14,7 +14,7 @@ const Footer = () => {
           {" "}
           Created by{" "}
           <img
-            src="/find-me-image-tagging-game/GitHub-Mark-Light-32px.png"
+            src="https://firebasestorage.googleapis.com/v0/b/find-me-game.appspot.com/o/GitHub-Mark-Light-32px.png?alt=media&token=f92346b1-a300-4f65-8f2a-6a6a747da088"
             alt="GitHub Logo"
           />{" "}
           NenoPr
