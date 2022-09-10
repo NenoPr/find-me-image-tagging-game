@@ -51,6 +51,7 @@ const LevelSelect = (appProps) => {
 
   return (
     <>
+    <div className="level-select-header">Level Selection</div>
       <div className="level-select-container">
         {levels ? (
           levels.map((item) => (

@@ -55,6 +55,10 @@
 }
 
 .game-selection-list {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
   position: relative;
   color: var(--main-color-1);
   background-color: rgb(255, 255, 255);
@@ -63,7 +67,7 @@
   border-radius: .5rem;
   isolation: isolate;
   width: max-content;
-  height: 7.05rem;
+  height: 7.2rem;
   font-family: "PsBold";
 }
 
@@ -98,7 +102,9 @@
   box-shadow: 0 0 .5rem .2rem var(--main-color-2);
   padding: 1rem;
   background-color: var(--accent-color-2);
-
+  background-image: url(https://firebasestorage.googleapis.com/v0/b/find-me-game.appspot.com/o/PSLogo.png?alt=media&token=8b4a3592-737b-419a-9840-9c0b0bd05bee);
+  background-position: center;
+  background-size: contain;
   width: fit-content;
 }
 

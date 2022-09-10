@@ -184,10 +184,6 @@ const App = () => {
   }
 
   useEffect(() => {
-    console.log(
-      "foundCharacters AAAAAAAAAAAAAAAAAAAAAAAAA",
-      foundCharacters.length
-    );
     if (foundCharacters.length > 2) {
       setRoot(createRoot(document.querySelector(".game-image-holder")));
       setCharacters([]);
@@ -250,7 +246,7 @@ const App = () => {
               </>
             )}
           </div>
-          <div className="global-leaderboard-title">Global Leaderboard</div>
+          <div className="global-leaderboard-title">{`Playstation ${currentLevel.level}`} Global Leaderboard</div>
           <div className="leaderboard-results-container">
             <div className="leaderboard-result-holder" key={uniqid()}>
               <div className="leaderboard-result-item result-header-item">
@@ -313,7 +309,7 @@ const App = () => {
 
     const querySnapshot = await getDocs(
       query(
-        collection(getFirestore(), "leaderboard"),
+        collection(getFirestore(), `leaderboard-playstation${currentLevel.level}`),
         orderBy("timestamp", "asc"),
         limit(50)
       )
@@ -346,12 +342,12 @@ const App = () => {
     console.log(formElement);
     console.log("formElement['name']", formElement["name"].value);
     console.log("formElement['comment']", formElement["comment"].value);
-    if (formElement["name"].value === "") return;
+    if (formElement["name"].value === "") formElement["name"].value = "Anonymous";
     if (formElement["comment"].value === "")
       formElement["comment"].value = "No Comment Provided.";
 
     try {
-      await addDoc(collection(getFirestore(), "leaderboard"), {
+      await addDoc(collection(getFirestore(), `leaderboard-playstation${currentLevel.level}`), {
         name: formElement["name"].value,
         comment: formElement["comment"].value,
         timestamp: time,
@@ -412,19 +408,19 @@ const App = () => {
                     className="game-selection-choice"
                     onClick={getCoordinates}
                   >
-                    {characters[0].name}
+                    {characters[0].status ? "" : characters[0].name}
                   </div>
                   <div
                     className="game-selection-choice"
                     onClick={getCoordinates}
                   >
-                    {characters[1].name}
+                    {characters[1].status ? "" : characters[1].name}
                   </div>
                   <div
                     className="game-selection-choice"
                     onClick={getCoordinates}
                   >
-                    {characters[2].name}
+                    {characters[2].status ? "" : characters[2].name}
                   </div>
                 </div>
               ) : (

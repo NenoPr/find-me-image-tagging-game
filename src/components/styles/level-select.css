@@ -9,6 +9,13 @@
     font-family: "PsBold";
 }
 
+.level-select-header {
+    font-family: "PsBold";
+    font-size: 2rem;
+    color: var(--white);
+    margin-bottom: 2rem;
+}
+
 .level-container {
     display: flex;
     flex-direction: column;

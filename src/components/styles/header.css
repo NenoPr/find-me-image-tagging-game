@@ -7,6 +7,21 @@
     font-family: "PsBold";
 }
 
+.header-title-logo {
+    display: flex;
+    align-items: center;
+}
+
+.header-title-logo-image {
+    height: 10vh;
+    filter: invert(1);
+}
+
+.header-title-description {
+    font-size: 1rem;
+    max-width: 15vw;
+}
+
 .header-characters-to-find-container {
     display: flex;
     font-size: 2rem;
