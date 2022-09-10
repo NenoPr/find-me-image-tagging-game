@@ -1,8 +1,8 @@
 {
-  "name": "where-s-waldo-photo-tagging-app",
+  "name": "find-me-image-tagging-game",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://NenoPr.github.io/where-s-waldo-photo-tagging-app",
+  "homepage": "https://nenopr.github.io/find-me-image-tagging-game/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
