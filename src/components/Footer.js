@@ -14,7 +14,7 @@ const Footer = () => {
           {" "}
           Created by{" "}
           <img
-            src="/where-s-waldo-photo-tagging-app/GitHub-Mark-Light-32px.png"
+            src="/find-me-image-tagging-game/GitHub-Mark-Light-32px.png"
             alt="GitHub Logo"
           />{" "}
           NenoPr
