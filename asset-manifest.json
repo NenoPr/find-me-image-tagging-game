@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/find-me-image-tagging-game/static/css/main.2490dedb.css",
-    "main.js": "/find-me-image-tagging-game/static/js/main.dfb08eee.js",
+    "main.js": "/find-me-image-tagging-game/static/js/main.fbdab1d8.js",
     "static/js/787.d8afcc54.chunk.js": "/find-me-image-tagging-game/static/js/787.d8afcc54.chunk.js",
     "static/media/PsBold.ttf": "/find-me-image-tagging-game/static/media/PsBold.2c139a4a156f192ca221.ttf",
     "index.html": "/find-me-image-tagging-game/index.html",
     "main.2490dedb.css.map": "/find-me-image-tagging-game/static/css/main.2490dedb.css.map",
-    "main.dfb08eee.js.map": "/find-me-image-tagging-game/static/js/main.dfb08eee.js.map",
+    "main.fbdab1d8.js.map": "/find-me-image-tagging-game/static/js/main.fbdab1d8.js.map",
     "787.d8afcc54.chunk.js.map": "/find-me-image-tagging-game/static/js/787.d8afcc54.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2490dedb.css",
-    "static/js/main.dfb08eee.js"
+    "static/js/main.fbdab1d8.js"
   ]
 }
